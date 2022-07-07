@@ -1,0 +1,134 @@
+import React, {Component} from "react";
+import {Form, Button, Row, Col, ButtonGroup, ToggleButton} from "react-bootstrap";
+
+import axios from 'axios'; // used for making api calls
+
+class WeatherForm extends Component {
+    // default state values
+
+
+    // triggered on page refresh
+    componentDidMount() {
+        this.refreshSavedWeather();
+    }
+
+    // Refreshes the current weather data for the most recent zip code, if it exists
+    refreshSavedWeather = () => {
+        if (localStorage.getItem("zipCode")) {
+            axios.post("/api/weather", {
+                zipCode: localStorage.getItem("zipCode"),
+                tempMetric: localStorage.getItem("tempMetric")
+            }).then(d => {
+                localStorage.setItem("CurrentWeatherData", JSON.stringify(d.data));
+            });
+        }
+    }
+
+    state = {
+        tempMetric: "imperial",
+        zipCodeInput: "98052"
+    }
+
+    onChange = (e) => {
+        this.setState({[e.target.name]: e.target.value});
+    }
+
+    /*===============================================================*/
+    /*===============================================================*/
+    saveFormData = (event) => {
+        event.preventDefault();
+
+        // Gets the weather data from the weather api and returns it to save into local storage and redux store.
+        axios.post("/api/weather", {
+            zipCode: this.state.zipCodeInput,
+            tempMetric: this.state.tempMetric
+        }).then(response => {
+            let weatherData = response.data;
+
+            this.saveToLocalStorage(weatherData);
+            // this.saveToMongo(weatherData);
+        });
+    }
+
+    // Save data from form to local storage
+    saveToLocalStorage = (weatherData) => {
+        localStorage.setItem("zipCode", this.state.zipCodeInput);
+        localStorage.setItem("tempMetric", this.state.tempMetric);
+        localStorage.setItem("CurrentWeatherData", JSON.stringify(weatherData));
+    }
+
+    saveToMongo = (event) => {
+        axios.post("/api/weatherMongo", {
+            zipCode: this.state.zipCodeInput,
+            tempMetric: this.state.tempMetric
+        }).then(response => {
+            let weatherData = response.data;
+
+            // do whatever you want with the weather data
+        });
+    }
+    /*===============================================================*/
+    /*===============================================================*/
+
+    render() {
+        return (
+            // LOCAL
+            <Form className="weather-form" onSubmit={this.saveFormData} > 
+            
+            {/* MONGO */}
+            {/* <Form className="weather-form" onSubmit={this.saveToMongo} >  */}
+            
+                <Row type="flex" justify="center" align="center" className="zipCode">
+                    <Col>
+                        <span>Zip Code: </span>
+                        <Form.Control name="zipCodeInput"
+                                      type="text"
+                                      placeholder="Enter your zip code"
+                                      onChange={this.onChange}
+                                      className="zipCodeInput"/>
+                    </Col>
+                </Row>
+
+                <Row type="flex" justify="center" align="center">
+                    <Col span={4}>
+                        <ButtonGroup toggle>
+                            <ToggleButton
+                                key={"C"}
+                                type="radio"
+                                variant="secondary"
+                                name="tempMetric"
+                                value={"metric"}
+                                checked={this.state.tempMetric === "metric"}
+                                onChange={this.onChange}
+                            >
+                                Celsius (°C)
+                            </ToggleButton>
+                            <ToggleButton
+                                key={"F"}
+                                type="radio"
+                                variant="secondary"
+                                name="tempMetric"
+                                value={"imperial"}
+                                checked={this.state.tempMetric === "imperial"}
+                                onChange={this.onChange}
+                            >
+                                Fahrenheit (°F)
+                            </ToggleButton>
+                        </ButtonGroup>
+                    </Col>
+                </Row>
+
+                <Row type="flex" justify="center" align="center">
+                    <Col span={4}>
+                        <Button className="save-btn" variant="primary" type="submit">
+                            Save
+                        </Button>
+                    </Col>
+                </Row>
+
+            </Form>
+        );
+    }
+}
+
+export default WeatherForm;
