@@ -111,12 +111,13 @@ class WeatherForm extends Component {
 
                 <Row type="flex" justify="center" align="center">
                     <Col span={4}>
-                        <ButtonGroup>
+                        <ButtonGroup type="radio" name="toggle" defaultValue={"metric"}>
                             <ToggleButton
                                 key={"C"}
                                 type="radio"
                                 variant="secondary"
                                 name="tempMetric"
+                                id={2}
                                 value={"metric"}
                                 checked={this.state.tempMetric === "metric"}
                                 onChange={this.onChange}
@@ -128,6 +129,7 @@ class WeatherForm extends Component {
                                 type="radio"
                                 variant="secondary"
                                 name="tempMetric"
+                                id={1}
                                 value={"imperial"}
                                 checked={this.state.tempMetric === "imperial"}
                                 onChange={this.onChange}
