@@ -6,6 +6,12 @@ import axios from 'axios'; // used for making api calls
 import {connect} from "react-redux";
 import {saveZipCode, saveWeatherData, saveTemperature, updateHistory} from "../actions";
 
+function clearHistory(){
+    localStorage.removeItem('WeatherHistory');
+    window.location.reload();
+return false;
+}
+
 class WeatherForm extends Component {
     // default state values
 
@@ -34,6 +40,11 @@ class WeatherForm extends Component {
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
+
+    // onChangeClear() {
+    //     this.localStorage.clear();
+    // }
+
 
     /*===============================================================*/
     /*===============================================================*/
@@ -146,6 +157,12 @@ class WeatherForm extends Component {
                             Save
                         </Button>
                     </Col>
+                    <Col span={4}>
+                        <Button className="save-btn" variant="secondary"  onClick={() => clearHistory()}>
+                            Clear History
+                        </Button>
+                    </Col>
+
                 </Row>
 
             </Form>
