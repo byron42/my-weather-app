@@ -34,7 +34,7 @@ class WeatherHistoryPanel extends Component {
         }
 
         return (
-            <Card>
+            <Card className="center bottom-space">
                 <ListGroup variant="flush">
                     {historyComponents}
                 </ListGroup>
@@ -44,14 +44,15 @@ class WeatherHistoryPanel extends Component {
 
     getInfoListItem = (info) => {
         return (
-            <ListGroup.Item key={info.timestamp}><b>{info.timestamp}</b> -
-                [{info.city}, {info.zipcode}]:[{info.temperature}, {info.description}]</ListGroup.Item>
+
+            <ListGroup.Item variant="primary" key={info.timestamp}><b>{info.timestamp}</b> -
+                [{info.city}, {info.zipcode}]:[{Math.round(info.temperature)}°, {info.description}]</ListGroup.Item>
         );
     }
 
     render() {
         return (
-            <section className="weather-history-panel">
+            <section className="center">
                 {!!this.props.history.length ? this.createHistoryList() : "No History!"}
             </section>
         );

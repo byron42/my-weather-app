@@ -32,6 +32,8 @@
     .temps {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
+      margin-bottom: -20px;
+      margin-top: 10px;
   
       .min-temp,
       .max-temp {
@@ -39,4 +41,16 @@
         justify-self: center;
       }
     }
+  }
+
+  //center
+  .center {
+    text-align: center;
+  }
+
+  .underline {
+    text-decoration: underline;
+    text-decoration-color: rgb(168, 167, 167);
+    // text-decoration-style
+    text-decoration-thickness: 2px;
   }

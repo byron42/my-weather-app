@@ -28,17 +28,26 @@ class WeatherInfoPanel extends Component {
 
                     <hr/>
 
-                    <section className="current-weather">
-                        <span className="humidity">Humidity: {weatherData.main.humidity}%</span>
-                        <span className="curr-temp">Temp: {weatherData.main.temp}{metricSymbol}</span>
-                        <span className="feels-like">Feels like: {weatherData.main.feels_like}{metricSymbol}</span>
+                    <section className="current-weather center">
+                        <span className="humidity">Humidity: <br /> {weatherData.main.humidity}%</span>
+                        <span className="curr-temp">Temp: <br /> {Math.round(weatherData.main.temp)}{metricSymbol}</span>
+                        <span className="feels-like">Feels like: <br /> {Math.round(weatherData.main.feels_like)}{metricSymbol}</span>
                     </section>
+
+                    {/* <section className="current-weather center">
+                        <span className="humidity">
+                            <span className="underline">Humidity:</span> <br />{weatherData.main.humidity}%</span>
+                        <span className="curr-temp">
+                            <span className="underline">Temp:</span> <br />{weatherData.main.temp}{metricSymbol}</span>
+                        <span className="feels-like">
+                            <span className="underline">Feels Like:</span><br />{weatherData.main.feels_like}{metricSymbol}</span>
+                    </section> */}
 
                     <hr/>
 
                     <section className="temps">
-                        <span className="min-temp">Low: {weatherData.main.temp_min}{metricSymbol}</span>
-                        <span className="max-temp">High: {weatherData.main.temp_max}{metricSymbol}</span>
+                        <span className="min-temp">Low: {Math.round(weatherData.main.temp_min)}{metricSymbol}</span>
+                        <span className="max-temp">High: {Math.round(weatherData.main.temp_max)}{metricSymbol}</span>
                     </section>
                 </section>
             );

@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import WeatherForm from "./WeatherForm";
-import WeatherPanels from "./WeatherPanels";
+import WeatherInfoPanel from "./WeatherInfoPanel";
 import {Button, Col} from "react-bootstrap";
+import WeatherHistoryPanel from "./WeatherHistoryPanel";
 
 // function clearHistory(){
 //     localStorage.removeItem('WeatherHistory');
@@ -17,6 +18,7 @@ class Container extends Component {
     render() {
         return(
             <section className="weather container">
+                <WeatherInfoPanel weatherData={this.state.weatherData}/>
                 <WeatherForm />
                 
                 {/* <Col span={4}>
@@ -26,7 +28,7 @@ class Container extends Component {
                         </Button>
                     </Col> */}
 
-                <WeatherPanels weatherData={this.state.weatherData}/>
+                <WeatherHistoryPanel weatherData={this.state.weatherData}/>
             </section>
         );
     }

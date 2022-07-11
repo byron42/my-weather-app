@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Form, Button, Row, Col, ButtonGroup, ToggleButton} from "react-bootstrap";
+import {Form, Button, Row, Col, FormSelect, ButtonGroup, ToggleButton} from "react-bootstrap";
 
 import axios from 'axios'; // used for making api calls
 
@@ -41,6 +41,12 @@ class WeatherForm extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
+
+    handleChange = this.handleChange.bind(this);
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+      }
     // onChangeClear() {
     //     this.localStorage.clear();
     // }
@@ -60,7 +66,6 @@ class WeatherForm extends Component {
 
             this.saveToStore(weatherData);
             this.saveToLocalStorage(weatherData);
-            // this.saveToMongo(weatherData);
         });
     }
 
@@ -74,13 +79,16 @@ class WeatherForm extends Component {
 
     // saves to mongoDB
     saveToMongo = (event) => {
+        event.preventDefault();
+
         axios.post("/api/weatherMongo", {
             zipCode: this.state.zipCodeInput,
             tempMetric: this.state.tempMetric
         }).then(response => {
             let weatherData = response.data;
 
-            // do whatever you want with the weather data
+            this.saveToStore(weatherData);
+            this.saveToLocalStorage(weatherData);
         });
     }
 
@@ -103,26 +111,60 @@ class WeatherForm extends Component {
 
     render() {
         return (
-            // LOCAL
-            <Form className="weather-form" onSubmit={this.saveFormData} > 
-            
-            {/* MONGO */}
-            {/* <Form className="weather-form" onSubmit={this.saveToMongo} >  */}
-            
-                <Row type="flex" justify="center" align="center" className="zipCode">
-                    <Col>
-                        <span>Zip Code: </span>
+            // LOCAL ONLY
+            // <Form className="weather-form" onSubmit={this.saveFormData} >
+
+            // LOCAL + JSON -> MONGO
+            <Form className="weather-form" onSubmit={this.saveToMongo} >
+            <span className="form-div">
+                <Row type="flex" justify="center" align="center" className="zipCode row-width">
+                    
+                        {/* <span className="hidden">Zip Code: </span> */}
+                        
                         <Form.Control name="zipCodeInput"
                                       type="text"
                                       placeholder="Enter your zip code"
                                       onChange={this.onChange}
                                       className="zipCodeInput"/>
-                    </Col>
+
+                        <Button className="save-btn" variant="primary" type="submit">
+                            Go
+                        </Button>
+                       
+                    
+
+                    {/* <Col span={4}> */}
+
+                    {/* </Col> */}
                 </Row>
 
-                <Row type="flex" justify="center" align="center">
-                    <Col span={4}>
-                        <ButtonGroup type="radio" name="toggle" defaultValue={"metric"}>
+                <Row type="flex" justify="center" align="center" className="row-width">
+                    
+                        
+                        <FormSelect  id="" name="tempMetric" className="dropdown" value={this.value} onChange={this.onChange}>
+                            <option
+                                key={"F"}
+                                variant="secondary"
+                                value={"imperial"}
+                                >
+                                Fahrenheit (°F)
+                            </option>
+                            <option
+                                key={"C"}
+                                variant="secondary"
+                                value={"metric"}
+                                >
+                                Celsius (°C)
+                            </option>
+                        </FormSelect>
+                    
+                    
+                        <Button className="history-btn" variant="secondary"  onClick={() => clearHistory()}>
+                            Clear History
+                        </Button>
+                    
+                    
+                        {/* <ButtonGroup type="radio" name="toggle" defaultValue={"metric"}>
                             <ToggleButton
                                 key={"C"}
                                 type="radio"
@@ -147,23 +189,21 @@ class WeatherForm extends Component {
                             >
                                 Fahrenheit (°F)
                             </ToggleButton>
-                        </ButtonGroup>
-                    </Col>
+                        </ButtonGroup> */}
+                    
                 </Row>
+                </span>
 
-                <Row type="flex" justify="center" align="center">
+
+                {/* <Row type="flex" justify="center" align="center">
+
                     <Col span={4}>
-                        <Button className="save-btn" variant="primary" type="submit">
-                            Save
-                        </Button>
-                    </Col>
-                    <Col span={4}>
-                        <Button className="save-btn" variant="secondary"  onClick={() => clearHistory()}>
+                        <Button className="history-btn" variant="secondary"  onClick={() => clearHistory()}>
                             Clear History
                         </Button>
                     </Col>
 
-                </Row>
+                </Row> */}
 
             </Form>
         );

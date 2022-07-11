@@ -1,14 +1,79 @@
 .weather-form {
+  background-color: rgba(231, 231, 231, 0.5);
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+
     .zipCode {
-      margin: 20px 0;
+      // margin: 20px 0;
   
       .zipCodeInput {
-        max-width: 200px;
+        max-width: 240px;
         display: inline-block;
+        margin: 2px;
       }
+    }
+
+    .dropdown {
+      max-width:160px;
+      align-content: center;
+      margin:2px;
+      color: gray;
     }
   
     .save-btn {
-      margin-top: 15px;
+      margin: 2px;
+      background-color: rgb(118, 150, 255);
+      font-size: 16px;
+      font-weight: 500;
+      padding: 0px;
+      width: 40px;
+      height: 37px;
+      border-color: rgb(113, 144, 244); 
+    }
+
+    .history-btn {
+      // background-color: rgb(171, 170, 170);
+      // background-color: rgb(118, 150, 255);
+      margin: 2px;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 0px;
+      width: 120px;
+      height: 37px;
+      border-color: rgb(181, 180, 180);
     }
   }
+
+  .row-width {
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    // margin: 0;
+    min-width: 290px;
+
+  }
+ 
+  .form-div {
+    // background-color: rgb(199, 199, 199); 
+    border-radius: 10px;
+    min-width: 250px;
+    min-height: 120px;
+    width: 300px;
+    height: 100px;
+    margin: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    overflow: visible;
+    flex-wrap: nowrap;
+}
+
+//for history
+.bottom-space {
+  margin-bottom: 20px;
+}

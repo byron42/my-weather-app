@@ -17,7 +17,12 @@
     display: grid;
     grid-template-columns: 1fr 9fr 1fr;
     // font-family: ShareTechMono, serif;
-    font-family: Oxygen, serif;
+    font-family: Calibri, serif;
+    color: gray;
+  }
+
+  .light {
+    background-color: red;
   }
   
   hr {
