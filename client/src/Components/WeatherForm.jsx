@@ -1,19 +1,19 @@
 import React, {Component} from "react";
-import {Form, Button, Row, Col, FormSelect, ButtonGroup, ToggleButton} from "react-bootstrap";
+import {Form, Button, Row, FormSelect} from "react-bootstrap";
 
 import axios from 'axios'; // used for making api calls
 
 import {connect} from "react-redux";
 import {saveZipCode, saveWeatherData, saveTemperature, updateHistory} from "../actions";
 
-function clearHistory(){
+// clears localStore from button call
+function clearHistory() {
     localStorage.removeItem('WeatherHistory');
     window.location.reload();
 return false;
 }
 
 class WeatherForm extends Component {
-    // default state values
 
     // triggered on page refresh
     componentDidMount() {
@@ -32,6 +32,7 @@ class WeatherForm extends Component {
         }
     }
 
+    // default state
     state = {
         tempMetric: "imperial",
         zipCodeInput: "98052"
@@ -41,19 +42,10 @@ class WeatherForm extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-
-    handleChange = this.handleChange.bind(this);
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-      }
-    // onChangeClear() {
-    //     this.localStorage.clear();
-    // }
-
-
     /*===============================================================*/
     /*===============================================================*/
+    
+    // LOCAL ONLY (using saveToMongo instead)
     saveFormData = (event) => {
         event.preventDefault();
 
@@ -77,10 +69,11 @@ class WeatherForm extends Component {
         localStorage.setItem("WeatherHistory", JSON.stringify(this.props.history));
     }
 
-    // saves to mongoDB
+    // saves to mongoDB and local (using this choice)
     saveToMongo = (event) => {
         event.preventDefault();
 
+        //post data
         axios.post("/api/weatherMongo", {
             zipCode: this.state.zipCodeInput,
             tempMetric: this.state.tempMetric
@@ -89,11 +82,16 @@ class WeatherForm extends Component {
 
             this.saveToStore(weatherData);
             this.saveToLocalStorage(weatherData);
+             
+            //clear zip on submit
+            let getForm = document.forms['form'];
+            getForm.elements["zip"].value = '';
+                   
         });
     }
 
-      // Saves data to the Redux store
-      saveToStore = (weatherData) => {
+    // Saves data to the Redux store
+    saveToStore = (weatherData) => {
         this.props.saveTemperature(this.state.tempMetric);
         this.props.saveZipCode(this.state.zipCodeInput);
         this.props.saveWeatherData(weatherData);
@@ -111,37 +109,28 @@ class WeatherForm extends Component {
 
     render() {
         return (
-            // LOCAL ONLY
-            // <Form className="weather-form" onSubmit={this.saveFormData} >
+            // localStore + (JSON -> MONGO)
+            <Form id="form" className="weather-form" onSubmit={this.saveToMongo} >
+                <span className="form-div">
 
-            // LOCAL + JSON -> MONGO
-            <Form className="weather-form" onSubmit={this.saveToMongo} >
-            <span className="form-div">
-                <Row type="flex" justify="center" align="center" className="zipCode row-width">
-                    
-                        {/* <span className="hidden">Zip Code: </span> */}
-                        
+                    <Row type="flex" justify="center" align="center" className="zipCode row-width">
                         <Form.Control name="zipCodeInput"
-                                      type="text"
-                                      placeholder="Enter your zip code"
-                                      onChange={this.onChange}
-                                      className="zipCodeInput"/>
+                                        type="text"
+                                        pattern="[0-9]{5}"
+                                        placeholder="Enter US zip code"
+                                        onChange={this.onChange}
+                                        className="zipCodeInput form-control pointer"
+                                        title=""
+                                        id="zip"
+                                        required/>
 
-                        <Button className="save-btn" variant="primary" type="submit">
+                        <Button className="save-btn" variant="primary" type="submit" >
                             Go
                         </Button>
-                       
-                    
+                    </Row>
 
-                    {/* <Col span={4}> */}
-
-                    {/* </Col> */}
-                </Row>
-
-                <Row type="flex" justify="center" align="center" className="row-width">
-                    
-                        
-                        <FormSelect  id="" name="tempMetric" className="dropdown" value={this.value} onChange={this.onChange}>
+                    <Row type="flex" justify="center" align="center" className="row-width">
+                        <FormSelect name="tempMetric" className="dropdown pointer" value={this.value} onChange={this.onChange}>
                             <option
                                 key={"F"}
                                 variant="secondary"
@@ -157,54 +146,12 @@ class WeatherForm extends Component {
                                 Celsius (°C)
                             </option>
                         </FormSelect>
-                    
-                    
                         <Button className="history-btn" variant="secondary"  onClick={() => clearHistory()}>
                             Clear History
                         </Button>
+                    </Row>
                     
-                    
-                        {/* <ButtonGroup type="radio" name="toggle" defaultValue={"metric"}>
-                            <ToggleButton
-                                key={"C"}
-                                type="radio"
-                                variant="secondary"
-                                name="tempMetric"
-                                id={2}
-                                value={"metric"}
-                                checked={this.state.tempMetric === "metric"}
-                                onChange={this.onChange}
-                            >
-                                Celsius (°C)
-                            </ToggleButton>
-                            <ToggleButton
-                                key={"F"}
-                                type="radio"
-                                variant="secondary"
-                                name="tempMetric"
-                                id={1}
-                                value={"imperial"}
-                                checked={this.state.tempMetric === "imperial"}
-                                onChange={this.onChange}
-                            >
-                                Fahrenheit (°F)
-                            </ToggleButton>
-                        </ButtonGroup> */}
-                    
-                </Row>
                 </span>
-
-
-                {/* <Row type="flex" justify="center" align="center">
-
-                    <Col span={4}>
-                        <Button className="history-btn" variant="secondary"  onClick={() => clearHistory()}>
-                            Clear History
-                        </Button>
-                    </Col>
-
-                </Row> */}
-
             </Form>
         );
     }

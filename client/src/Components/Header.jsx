@@ -5,7 +5,7 @@ class Header extends Component {
         return (
             <section className="header">
                 <h1>{'WEATHER D\u263CWN'}</h1>
-                <span className="annotation">(MERN Full Stack Website Example)</span>
+                <span className="annotation">(MERN Full Stack Example)</span>
             </section>
         );
     }

@@ -53,8 +53,8 @@ class WeatherInfoPanel extends Component {
             );
         }
         return (
-            <section>
-                WeatherInfo!
+            <section className="center no-info">
+                No Weather Info!
             </section>
         );
     }

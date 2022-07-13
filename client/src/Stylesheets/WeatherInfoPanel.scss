@@ -48,9 +48,13 @@
     text-align: center;
   }
 
+  .no-info {
+    font-size: x-large;
+    color: rgb(156, 155, 155);
+  }
+
   .underline {
     text-decoration: underline;
     text-decoration-color: rgb(168, 167, 167);
-    // text-decoration-style
     text-decoration-thickness: 2px;
   }

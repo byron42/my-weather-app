@@ -1,4 +1,3 @@
-
 @import "WeatherInfoPanel";
 
 .weather-panels {
@@ -7,9 +6,7 @@
   grid-column-gap: 50px;
 }
 
+// different colored temp bg (not implemented yet)
 .row-bg {
   background-color: rgb(199, 199, 199);
-  // height: 150%;
-  
-  // align-self: center;
 }

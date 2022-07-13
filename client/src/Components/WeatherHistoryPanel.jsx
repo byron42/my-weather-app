@@ -4,24 +4,6 @@ import {Card, ListGroup} from "react-bootstrap";
 import {connect} from "react-redux";
 
 class WeatherHistoryPanel extends Component {
-    // state = {
-    //     history: [
-    //         {
-    //             "timestamp": "7/27/2020, 11:10:33 PM",
-    //             "city": "Fort Worth",
-    //             "zipcode": "76108",
-    //             "temperature": 82.13,
-    //             "description": "clear sky"
-    //         },
-    //         {
-    //             "timestamp": "7/27/2020, 11:10:36 PM",
-    //             "city": "Redmond",
-    //             "zipcode": "98052",
-    //             "temperature": 73.67,
-    //             "description": "clear sky"
-    //         }
-    //     ]
-    // }
 
     createHistoryList = () => {
         let historyComponents = [];
@@ -53,7 +35,7 @@ class WeatherHistoryPanel extends Component {
     render() {
         return (
             <section className="center">
-                {!!this.props.history.length ? this.createHistoryList() : "No History!"}
+                {!!this.props.history.length ? this.createHistoryList() : <span className="no-info">No History!</span>}
             </section>
         );
     }
