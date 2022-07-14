@@ -27,7 +27,18 @@ class Weather {
 
         // Awaitable call to get the information from the weather api and then return the data.
         // TODO: Add error handling for this call
+        try{
+
         return (await axios(url)).data;
+        
+        }
+        
+        catch (error) {
+            // console.log("there was an issue");
+            console.error(error.response.data);     // NOTE - use "error.response.data` (not "error")
+        }
+
+
     }
 
     /**
