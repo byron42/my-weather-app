@@ -115,7 +115,7 @@ class WeatherForm extends Component {
 
                     <Row type="flex" justify="center" align="center" className="zipCode row-width">
                         <Form.Control name="zipCodeInput"
-                                        type="number"
+                                        type="text"
                                         pattern="[0-9]{5}"
                                         placeholder="Enter US zip code"
                                         onChange={this.onChange}
