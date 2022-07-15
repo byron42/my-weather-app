@@ -78,6 +78,8 @@ class WeatherForm extends Component {
             zipCode: this.state.zipCodeInput,
             tempMetric: this.state.tempMetric
         }).then(response => {
+
+            try {
             let weatherData = response.data;
 
             this.saveToStore(weatherData);
@@ -86,6 +88,13 @@ class WeatherForm extends Component {
             //clear zip on submit
             let getForm = document.forms['form'];
             getForm.elements["zip"].value = '';
+            } catch {
+                // window.alert("error");
+                let getForm = document.forms['form'];
+                getForm.elements["zip"].value = '';
+                window.location.reload();
+                // return(this.saveToMongo());
+            }
                    
         });
     }
